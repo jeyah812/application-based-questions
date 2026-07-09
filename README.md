@@ -16,14 +16,10 @@ Logistic Regression
 - Spam Email Classification
 
 ### Experiment 3
-Logistic Regression
-- Spam Email Classification (Repeated Scenario)
-
-### Experiment 4
 Linear Regression
 - Car Resale Price Prediction
 
-### Experiment 5
+### Experiment 4
 Decision Tree (CART)
 - Loan Approval Prediction
 
@@ -45,6 +41,5 @@ ML-Scenarios
 ├── exp2.py
 ├── exp3.py
 ├── exp4.py
-├── exp5.py
 └── README.md
 ```
