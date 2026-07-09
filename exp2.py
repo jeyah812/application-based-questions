@@ -32,9 +32,11 @@ links = int(input("Number of Links: "))
 caps = int(input("Number of Capitalized Words: "))
 length = int(input("Email Length: "))
 
-new_email = [[links, caps, length]]
+new_email = pd.DataFrame(
+    [[links, caps, length]],
+    columns=["Num_Links", "Num_Caps_Words", "Email_Length"]
+)
 
-# Predict
 prediction = model.predict(new_email)
 
 # Display result

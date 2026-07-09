@@ -1,47 +1,54 @@
-# ==========================================
-# Experiment 4: Linear Regression
-# Car Resale Price Prediction
-# ==========================================
-
 import pandas as pd
-from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeClassifier, export_text
 
 # Load the dataset
-df = pd.read_csv("data/cars.csv")
+df = pd.read_csv("data/loan_data.csv")
 
 # Display dataset
-print("\n========== CAR DATASET ==========")
+print("\n========== LOAN DATASET ==========")
 print(df)
 
 # Features (Independent Variables)
-X = df[["Age", "Kms_Driven", "Engine_CC"]]
+X = df[["Income", "Credit_Score", "Existing_Loans"]]
 
 # Target (Dependent Variable)
-y = df["Resale_Price"]
+y = df["Approved"]
 
-# Create and train the Linear Regression model
-model = LinearRegression()
+# Create and train the Decision Tree model
+model = DecisionTreeClassifier(random_state=42)
 model.fit(X, y)
 
 print("\n========== MODEL STATUS ==========")
-print("Linear Regression model trained successfully!")
+print("Decision Tree (CART) model trained successfully!")
 
 # Accept user input
-print("\nEnter details of the car:")
+print("\nEnter applicant details:")
 
-age = int(input("Age of Car (Years): "))
-kms = int(input("Kilometers Driven: "))
-engine = int(input("Engine Capacity (CC): "))
+income = int(input("Monthly Income (₹): "))
+credit_score = int(input("Credit Score: "))
+existing_loans = int(input("Existing Loans: "))
 
 # Create input DataFrame
-new_car = pd.DataFrame(
-    [[age, kms, engine]],
-    columns=["Age", "Kms_Driven", "Engine_CC"]
+new_applicant = pd.DataFrame(
+    [[income, credit_score, existing_loans]],
+    columns=["Income", "Credit_Score", "Existing_Loans"]
 )
 
-# Predict resale price
-predicted_price = model.predict(new_car)
+# Predict
+prediction = model.predict(new_applicant)
 
 # Display result
 print("\n========== PREDICTION ==========")
-print(f"Estimated Resale Price: ₹{predicted_price[0]:,.2f}")
+
+if prediction[0] == 1:
+    print("Loan Status: APPROVED")
+else:
+    print("Loan Status: REJECTED")
+
+# Display decision rules
+print("\n========== DECISION RULES ==========")
+rules = export_text(
+    model,
+    feature_names=["Income", "Credit_Score", "Existing_Loans"]
+)
+print(rules)

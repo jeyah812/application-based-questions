@@ -1,48 +1,47 @@
 # ==========================================
-# Scenario 2: Logistic Regression
-# Spam Email Classification
+# Experiment 4: Linear Regression
+# Car Resale Price Prediction
 # ==========================================
 
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression
 
 # Load the dataset
-df = pd.read_csv("data/emails.csv")
+df = pd.read_csv("data/cars.csv")
 
 # Display dataset
-print("\n========== EMAIL DATASET ==========")
+print("\n========== CAR DATASET ==========")
 print(df)
 
 # Features (Independent Variables)
-X = df[["Num_Links", "Num_Caps_Words", "Email_Length"]]
+X = df[["Age", "Kms_Driven", "Engine_CC"]]
 
 # Target (Dependent Variable)
-y = df["Spam"]
+y = df["Resale_Price"]
 
-# Create and train the Logistic Regression model
-model = LogisticRegression()
+# Create and train the Linear Regression model
+model = LinearRegression()
 model.fit(X, y)
 
-print("\nModel trained successfully!")
+print("\n========== MODEL STATUS ==========")
+print("Linear Regression model trained successfully!")
 
-# Take user input
-print("\nEnter details of the new email:")
+# Accept user input
+print("\nEnter details of the car:")
 
-links = int(input("Number of Links: "))
-caps = int(input("Number of Capitalized Words: "))
-length = int(input("Email Length: "))
+age = int(input("Age of Car (Years): "))
+kms = int(input("Kilometers Driven: "))
+engine = int(input("Engine Capacity (CC): "))
 
-new_email = pd.DataFrame(
-    [[links, caps, length]],
-    columns=["Num_Links", "Num_Caps_Words", "Email_Length"]
+# Create input DataFrame
+new_car = pd.DataFrame(
+    [[age, kms, engine]],
+    columns=["Age", "Kms_Driven", "Engine_CC"]
 )
 
-prediction = model.predict(new_email)
+# Predict resale price
+predicted_price = model.predict(new_car)
 
 # Display result
 print("\n========== PREDICTION ==========")
-
-if prediction[0] == 1:
-    print("The email is predicted as: SPAM")
-else:
-    print("The email is predicted as: NOT SPAM")
+print(f"Estimated Resale Price: ₹{predicted_price[0]:,.2f}")
