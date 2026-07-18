@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-
 # Load the CSV file
 df = pd.read_csv("data/houses.csv")
 
@@ -24,3 +23,6 @@ print(filtered_houses)
 
 # Display the average sale price
 print(f"\nAverage Sale Price: ₹{average_price:,.2f}")
+
+
+

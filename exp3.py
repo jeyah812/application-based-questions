@@ -1,5 +1,5 @@
 # ==========================================
-# Experiment 4: Linear Regression
+# Experiment 3: Linear Regression
 # Car Resale Price Prediction
 # ==========================================
 
@@ -13,8 +13,11 @@ df = pd.read_csv("data/cars.csv")
 print("\n========== CAR DATASET ==========")
 print(df)
 
+# Convert Brand column into numerical columns
+df = pd.get_dummies(df, columns=["Brand"])
+
 # Features (Independent Variables)
-X = df[["Age", "Kms_Driven", "Engine_CC"]]
+X = df.drop(columns=["Car_ID", "Resale_Price"])
 
 # Target (Dependent Variable)
 y = df["Resale_Price"]
@@ -26,18 +29,38 @@ model.fit(X, y)
 print("\n========== MODEL STATUS ==========")
 print("Linear Regression model trained successfully!")
 
-# Accept user input
+# Store feature names
+feature_columns = X.columns
+
+# -------------------- USER INPUT --------------------
+
 print("\nEnter details of the car:")
+
+brand = input("Brand (Maruti/Hyundai/Honda/Tata/Toyota/Kia/Mahindra/BMW/Mercedes-Benz/Audi): ")
 
 age = int(input("Age of Car (Years): "))
 kms = int(input("Kilometers Driven: "))
 engine = int(input("Engine Capacity (CC): "))
 
-# Create input DataFrame
-new_car = pd.DataFrame(
-    [[age, kms, engine]],
-    columns=["Age", "Kms_Driven", "Engine_CC"]
-)
+# Create a dictionary with all feature columns initialized to 0
+new_car = {col: 0 for col in feature_columns}
+
+# Assign numerical values
+new_car["Age"] = age
+new_car["Kms_Driven"] = kms
+new_car["Engine_CC"] = engine
+
+# Assign selected brand
+brand_column = "Brand_" + brand
+
+if brand_column in new_car:
+    new_car[brand_column] = 1
+else:
+    print("Invalid Brand!")
+    exit()
+
+# Convert to DataFrame
+new_car = pd.DataFrame([new_car])
 
 # Predict resale price
 predicted_price = model.predict(new_car)
